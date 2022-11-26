@@ -12,7 +12,7 @@ services:
     ports:
         - "7200:3306"
     volumes: 
-        - ./chat-service-db:/var/lib/mysql
+        - ./amis-service-db:/var/lib/mysql
 
   api:
     build:
