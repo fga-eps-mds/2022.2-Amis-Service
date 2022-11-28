@@ -12,15 +12,17 @@ services:
     ports:
         - "7200:3306"
     volumes: 
-        - ./amis-service-db:/var/lib/mysql
+        - ./db-volume:/var/lib/mysql
 
   api:
     build:
-      context: ./api
+      context: ./
     container_name: api
     ports:
       - "8080:8080"
     depends_on:
       - db
+    volumes:
+      - './src/:/app/'
 
 

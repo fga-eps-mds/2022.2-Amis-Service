@@ -2,3 +2,4 @@ fastapi==0.78.0
 SQLAlchemy==1.4.39
 uvicorn==0.18.2
 pymysql
+python-dotenv
