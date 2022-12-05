@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:5.7.20
+    container_name: db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: db
+    ports:
+        - "7200:3306"
+    volumes: 
+        - ./db-volume:/var/lib/mysql
+
+  api:
+    build:
+      context: ./
+    container_name: api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - './src/:/app/'
+
+
