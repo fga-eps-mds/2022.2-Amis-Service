@@ -3,29 +3,30 @@ from main import app
 from httpx import AsyncClient
 
 nome = 'Maria das Dores de Souza'
+nomeSocial = 'Mariela'
 cpf = '50070792003'
-nome_social = 'Mariela'
-rg = '215499268'
-data_nascimento = '29/05/1975'
-nome_pai = 'João'
-nome_mae = 'Joana'
+rg = '2154992'
+dataNascimento = '12/02/1970'
+nomePai = 'Joao'
+nomeMae = 'Joana'
 deficiencia = False
-endereco = 'St. Leste Projeção A - Gama Leste, Brasília - DF, 72444-240'
+idEndereco = 1
 
 global_response = []
 
+# CREATE
 @pytest.mark.asyncio
 async def test_create_aluna():
     data = {
         "nome": nome,
+        "nomeSocial": nomeSocial,
         "cpf": cpf,
-        "nome_social": nome_social,
         "rg": rg,
-        "data_nascimento": data_nascimento,
-        "nome_pai": nome_pai,
-        "nome_mae": nome_mae,
+        "dNascimento": dataNascimento,
+        "nomePai": nomePai,
+        "nomeMae": nomeMae,
         "deficiencia": deficiencia,
-        "endereco": endereco
+        "idEndereco": idEndereco
     }
     async with AsyncClient(app=app, base_url="http://alunas") as ac:
         response = await ac.post("/alunas/", json=data) 
@@ -33,13 +34,14 @@ async def test_create_aluna():
         global_response = response
     assert response.status_code == 201 
 
-
+# GET ALL
 @pytest.mark.asyncio
 async def test_read_all_alunas():
     async with AsyncClient(app=app, base_url="http://alunas") as ac:
         response = await ac.get("/alunas/")
     assert response.status_code == 200
 
+# GET BY CPF
 @pytest.mark.asyncio
 async def test_read_by_cpf_alunas():
     async with AsyncClient(app=app, base_url="http://alunas") as ac:
@@ -58,27 +60,29 @@ async def test_read_by_cpf_alunas():
 #         response = await ac.put("/alunas/1", json=data)
 #     assert response.status_code == 201
 
-
+# UPDATE BY ID
 @pytest.mark.asyncio
 async def test_update_by_id_aluna():
+
     data = {
         "nome": nome,
+        "nomeSocial": 'Felipe',
         "cpf": cpf,
-        "nome_social": "Felipe",
         "rg": rg,
-        "data_nascimento": '00/00/00',
-        "nome_pai": nome_pai,
-        "nome_mae": nome_mae,
+        "dNascimento": '00/00/00',
+        "nomePai": nomePai,
+        "nomeMae": nomeMae,
         "deficiencia": deficiencia,
-        "endereco": "Casa"
+        "idEndereco": idEndereco
     }
+
     async with AsyncClient(app=app, base_url="http://alunas") as ac:
         response = await ac.put(f"/alunas/{global_response.json()['id']}", json=data)
     assert response.status_code == 200
 
+# DELETE BY CPF
 @pytest.mark.asyncio
-async def test_delete_by_cpf_alunas():
+async def test_delete_by_id_alunas():
     async with AsyncClient(app=app, base_url="http://alunas") as ac:
-        response = await ac.delete(f"/alunas/{cpf}")
+        response = await ac.delete(f"/alunas/{global_response.json()['id']}")
     assert response.status_code == 204 
-        
