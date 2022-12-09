@@ -2,87 +2,79 @@ import pytest
 from main import app
 from httpx import AsyncClient
 
-nome = 'Maria das Dores de Souza'
-nomeSocial = 'Mariela'
-cpf = '50070792003'
-rg = '2154992'
-dataNascimento = '12/02/1970'
-nomePai = 'Joao'
-nomeMae = 'Joana'
-deficiencia = False
-idEndereco = 1
+NOME = 'Maria das Dores de Souza'
+NOME_SOCIAL = 'Mariela'
+CPF = '50070792003'
+RG = '2154992'
+DATA_NASC = '12/02/1970'
+NOME_PAI = 'Joao'
+NOME_MAE = 'Joana'
+DEFICIENCIA = False
+ENDERECO_ID = 1
 
-global_response = []
+GLOBAL_RESPONSE = []
 
 # CREATE
 @pytest.mark.asyncio
 async def test_create_aluna():
+    '''Função para testar a criação de uma aluna'''
     data = {
-        "nome": nome,
-        "nomeSocial": nomeSocial,
-        "cpf": cpf,
-        "rg": rg,
-        "dNascimento": dataNascimento,
-        "nomePai": nomePai,
-        "nomeMae": nomeMae,
-        "deficiencia": deficiencia,
-        "idEndereco": idEndereco
+        "nome": NOME,
+        "nomeSocial": NOME_SOCIAL,
+        "cpf": CPF,
+        "rg": RG,
+        "dNascimento": DATA_NASC,
+        "nomePai": NOME_PAI,
+        "nomeMae": NOME_MAE,
+        "deficiencia": DEFICIENCIA,
+        "idEndereco": ENDERECO_ID
     }
-    async with AsyncClient(app=app, base_url="http://alunas") as ac:
-        response = await ac.post("/alunas/", json=data) 
-        global global_response 
-        global_response = response
-    assert response.status_code == 201 
+    async with AsyncClient(app=app, base_url="http://alunas") as async_client:
+        response = await async_client.post("/alunas/", json=data)
+        global GLOBAL_RESPONSE
+        GLOBAL_RESPONSE = response
+    assert response.status_code == 201
 
 # GET ALL
 @pytest.mark.asyncio
 async def test_read_all_alunas():
-    async with AsyncClient(app=app, base_url="http://alunas") as ac:
-        response = await ac.get("/alunas/")
+    '''Função para testar exibição de todas alunas (ainda sem paginação)'''
+    async with AsyncClient(app=app, base_url="http://alunas") as async_client:
+        response = await async_client.get("/alunas/")
     assert response.status_code == 200
 
 # GET BY CPF
 @pytest.mark.asyncio
 async def test_read_by_cpf_alunas():
-    async with AsyncClient(app=app, base_url="http://alunas") as ac:
-        response = await ac.get(f"/alunas/{cpf}")
+    '''Função para testar pesquisa de aluna por CPF'''
+    async with AsyncClient(app=app, base_url="http://alunas") as async_client:
+        response = await async_client.get(f"/alunas/{CPF}")
     assert response.status_code == 200
-        
-# @pytest.mark.asyncio
-# async def test_update_by_cpf_aluna():
-#     data = {
-#         "nome": nome,
-#         "cpf": '1',
-#         "turma": '130',
-#         "idade": 42
-#     }
-#     async with AsyncClient(app=app, base_url="http://alunas") as ac:
-#         response = await ac.put("/alunas/1", json=data)
-#     assert response.status_code == 201
 
 # UPDATE BY ID
 @pytest.mark.asyncio
 async def test_update_by_id_aluna():
-
+    '''Função para testar modificação de objeto aluna por ID'''
     data = {
-        "nome": nome,
+        "nome": NOME,
         "nomeSocial": 'Felipe',
-        "cpf": cpf,
-        "rg": rg,
+        "cpf": CPF,
+        "rg": RG,
         "dNascimento": '00/00/00',
-        "nomePai": nomePai,
-        "nomeMae": nomeMae,
-        "deficiencia": deficiencia,
-        "idEndereco": idEndereco
+        "nomePai": NOME_PAI,
+        "nomeMae": NOME_MAE,
+        "deficiencia": DEFICIENCIA,
+        "idEndereco": ENDERECO_ID
     }
 
-    async with AsyncClient(app=app, base_url="http://alunas") as ac:
-        response = await ac.put(f"/alunas/{global_response.json()['id']}", json=data)
+    async with AsyncClient(app=app, base_url="http://alunas") as async_client:
+        response = await async_client.put(f"/alunas/{GLOBAL_RESPONSE.json()['id']}", json=data)
     assert response.status_code == 200
 
 # DELETE BY CPF
 @pytest.mark.asyncio
 async def test_delete_by_id_alunas():
-    async with AsyncClient(app=app, base_url="http://alunas") as ac:
-        response = await ac.delete(f"/alunas/{global_response.json()['id']}")
-    assert response.status_code == 204 
+    '''Função para testar apagar aluna por ID'''
+    async with AsyncClient(app=app, base_url="http://alunas") as async_client:
+        response = await async_client.delete(f"/alunas/{GLOBAL_RESPONSE.json()['id']}")
+    assert response.status_code == 204
