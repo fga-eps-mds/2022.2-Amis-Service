@@ -1,36 +1,41 @@
 from sqlalchemy.orm import Session
-
-from .model import Alunas
+from alunas.model import Alunas
 
 class AlunasRepository:
     @staticmethod
-    def find_all(db: Session) -> list[Alunas]:
-        return db.query(Alunas).all()
+    def find_all(database: Session) -> list[Alunas]:
+        '''Função para fazer uma query de todas as alunas da DB'''
+        return database.query(Alunas).all()
 
     @staticmethod
-    def save(db: Session, alunas: Alunas) -> Alunas:
+    def save(database: Session, alunas: Alunas) -> Alunas:
+        '''Função para salvar um objeto aluna na DB'''
         if alunas.id:
-            db.merge(alunas)
+            database.merge(alunas)
         else:
-            db.add(alunas)
-        db.commit()
+            database.add(alunas)
+        database.commit()
         return alunas
 
     @staticmethod
-    def find_by_cpf(db: Session, cpf: str) -> Alunas:
-        return db.query(Alunas).filter(Alunas.cpf == cpf).first()
+    def find_by_cpf(database: Session, cpf: str) -> Alunas:
+        '''Função para fazer uma query por CPF de um objeto aluna na DB'''
+        return database.query(Alunas).filter(Alunas.cpf == cpf).first()
 
     @staticmethod
-    def exists_by_cpf(db: Session, cpf: str) -> bool:
-        return db.query(Alunas).filter(Alunas.cpf == cpf).first() is not None
+    def exists_by_cpf(database: Session, cpf: str) -> bool:
+        '''Função que verifica se o CPF dado existe na DB'''
+        return database.query(Alunas).filter(Alunas.cpf == cpf).first() is not None
 
     @staticmethod
-    def exists_by_id(db: Session, id: int) -> bool:
-        return db.query(Alunas).filter(Alunas.id == id).first() is not None
+    def exists_by_id(database: Session, id: int) -> bool:
+        '''Função que verifica se o ID dado existe na DB'''
+        return database.query(Alunas).filter(Alunas.id == id).first() is not None
 
     @staticmethod
-    def delete_by_id(db: Session, id: str) -> None:
-        alunas = db.query(Alunas).filter(Alunas.id == id).first()
+    def delete_by_id(database: Session, id: str) -> None:
+        '''Função para excluir um objeto aluna da DB dado o ID'''
+        alunas = database.query(Alunas).filter(Alunas.id == id).first()
         if alunas is not None:
-            db.delete(alunas)
-            db.commit()
+            database.delete(alunas)
+            database.commit()
