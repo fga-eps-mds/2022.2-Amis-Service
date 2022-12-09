@@ -1,8 +1,9 @@
+'''Importando parâmetros da orm'''
 from sqlalchemy import Column, Integer, String, Boolean
-
 from database import Base
 
 class Alunas(Base):
+    '''Classe para estabelecer o modelo da tabela na DB'''
     __tablename__ = "alunas"
 
     id: int = Column(Integer, primary_key = True, index = True)
