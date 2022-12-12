@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from database import engine, Base, get_db as get_database
+from ..database import engine, Base, get_db as get_database
 from fastapi import APIRouter, status, HTTPException, Response, Depends
-from alunas.model import Alunas
-from alunas.repository import AlunasRepository
-from alunas.schema import AlunasRequest, AlunasResponse
+from .model import Alunas
+from .repository import AlunasRepository
+from .schema import AlunasRequest, AlunasResponse
 
 Base.metadata.create_all(bind=engine)
 
