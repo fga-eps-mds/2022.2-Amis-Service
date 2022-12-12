@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from alunas.model import Alunas
+from .model import Alunas
 
 class AlunasRepository:
     @staticmethod

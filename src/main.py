@@ -2,7 +2,7 @@ from fastapi import FastAPI, status
 app = FastAPI()
 
 # Routers
-from alunas.router import router as aluna_router
+from .alunas.router import router as aluna_router
 
 from config import settings
 
