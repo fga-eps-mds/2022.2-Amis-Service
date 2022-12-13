@@ -2,3 +2,8 @@ venv/
 __pycache__
 .env
 db-volume
+
+# Coverage files
+.coverage
+coverage.xml
+junit.xml
