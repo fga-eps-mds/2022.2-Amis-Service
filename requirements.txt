@@ -4,3 +4,6 @@ uvicorn==0.18.2
 pymysql
 python-dotenv
 pylint
+pytest
+httpx
+pytest-asyncio
