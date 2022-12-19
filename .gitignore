@@ -4,3 +4,5 @@ __pycache__
 db-volume
 .coverage
 junit.xml
+
+analytics-raw-data/*
