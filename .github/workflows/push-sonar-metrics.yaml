@@ -23,7 +23,7 @@ jobs:
         run: mkdir analytics-raw-data
 
       - name: Coletar métricas no SonarCloud
-        run: python parser.py ${{ env.REPOSITORY }} ${{ env.RELEASE }}
+        run: python sonar_metrics.py ${{ env.REPOSITORY }} ${{ env.RELEASE }}
 
       - name: Envia métricas para repositório Amis-Doc
         run: |
