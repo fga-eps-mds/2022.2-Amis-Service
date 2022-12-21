@@ -3,8 +3,8 @@ name: Export de métricas do SonarCloud
 on:
   push:
     branches: [ main ]
-    # tags:
-    #   - "v*"
+    tags:
+      - "v*"
 
 env:
   REPOSITORY: ${{ github.event.repository.name }}
