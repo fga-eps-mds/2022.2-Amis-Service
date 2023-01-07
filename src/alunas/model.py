@@ -16,3 +16,4 @@ class Alunas(Base):
     nomeMae: str = Column(String(100), nullable = True)
     deficiencia: Boolean = Column(Boolean, nullable = False)
     idEndereco: int = Column(Integer, nullable = False)
+    #observacao: str = Column(String(200), nullable = True)

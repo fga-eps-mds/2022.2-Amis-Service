@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
 from .model import Assistentes
 
-class AssistenteRepository:
+class AssistentesRepository:
     @staticmethod
     def find_all(database: Session) -> list[Assistentes]:
-        '''Função para fazer uma query de todas as assistente da DB'''
+        '''Função para fazer uma query de todas as assistentes da DB'''
         return database.query(Assistentes).all()
 
     @staticmethod

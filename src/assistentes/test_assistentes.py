@@ -72,7 +72,7 @@ async def test_update_by_id_assistente():
         response = await async_client.put(f"/assistentes/{GLOBAL_RESPONSE.json()['id']}", json = data)
     assert response.status_code == 200
 
-# DELETE BY CPF
+# DELETE BY ID
 @pytest.mark.asyncio
 async def test_delete_by_id_assistente():
     '''Função para testar apagar assistente por ID'''
