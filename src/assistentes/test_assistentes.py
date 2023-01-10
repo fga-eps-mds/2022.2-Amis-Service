@@ -77,5 +77,7 @@ async def test_update_by_id_assistente():
 async def test_delete_by_id_assistente():
     '''Função para testar apagar assistente por ID'''
     async with AsyncClient(app = app, base_url = HTTPS_ASSISTENTE) as async_client:
-        response = await async_client.delete(f"/assistente/{GLOBAL_RESPONSE.json()['id']}")
+        
+        response = await async_client.delete(f"/assistentes/{GLOBAL_RESPONSE.json()['id']}")
+    print(response)        
     assert response.status_code == 204
