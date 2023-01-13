@@ -1,0 +1,46 @@
+name: Export de métricas do SonarCloud
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - "v*"
+
+env:
+  REPOSITORY: ${{ github.event.repository.name }}
+  RELEASE: ${{ github.ref_name }}
+
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Criar diretório destino das métricas
+        run: mkdir analytics-raw-data
+
+      - name: Coletar métricas no SonarCloud
+        run: python sonar_metrics.py ${{ env.REPOSITORY }} ${{ env.RELEASE }}
+
+      - name: Envia métricas para repositório Amis-Doc
+        run: |
+          git config --global user.email "${{secrets.USER_EMAIL}}"
+          git config --global user.name "${{secrets.USER_NAME}}"
+          git clone --single-branch --branch main "https://x-access-token:${{secrets.API_GH_TOKEN}}@github.com/fga-eps-mds/2022.2-Amis-Doc" doc
+          mkdir -p doc/analytics-raw-data
+          cp -R analytics-raw-data/*.json doc/analytics-raw-data
+          cd doc
+          git add .
+          git commit -m "Adicionando métricas do repositório ${{ github.event.repository.name }} ${{ github.ref_name }}"
+          git push
+
+      - name: Envia métricas como assets da release
+        if: startsWith(github.ref, 'refs/tags')
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: 'analytics-raw-data/*'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          release-tag: ${{ github.ref_name }}

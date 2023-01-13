@@ -1,7 +1,7 @@
 from typing import Union
 from pydantic import BaseModel
 
-class AlunasBase(BaseModel):
+class AssistentesBase(BaseModel):
     '''Classe para definir os modelos recebidos na API'''
     nome: str
     nomeSocial: str
@@ -14,11 +14,10 @@ class AlunasBase(BaseModel):
     idEndereco: int
     #observacao: str
 
-
-class AlunasRequest(AlunasBase):
+class AssistentesRequest(AssistentesBase):
     '''...'''
 
-class AlunasResponse(AlunasBase):
+class AssistentesResponse(AssistentesBase):
     '''...'''
     cpf: str
     id: int

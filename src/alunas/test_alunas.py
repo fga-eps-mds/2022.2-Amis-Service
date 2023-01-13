@@ -1,5 +1,5 @@
 import pytest
-from main import app
+from ..main import app
 from httpx import AsyncClient
 
 NOME = 'Maria das Dores de Souza'
@@ -72,7 +72,7 @@ async def test_update_by_id_aluna():
         response = await async_client.put(f"/alunas/{GLOBAL_RESPONSE.json()['id']}", json = data)
     assert response.status_code == 200
 
-# DELETE BY CPF
+# DELETE BY ID
 @pytest.mark.asyncio
 async def test_delete_by_id_alunas():
     '''Função para testar apagar aluna por ID'''

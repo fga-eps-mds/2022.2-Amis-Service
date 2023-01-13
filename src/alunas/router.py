@@ -39,7 +39,7 @@ def find_by_cpf(cpf: str, database: Session = Depends(get_database)):
     aluna = AlunasRepository.find_by_cpf(database, cpf)
     if not aluna:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail = "aluna não encontrada"
+            status_code=status.HTTP_404_NOT_FOUND, detail = "Aluna não encontrada"
         )
     return AlunasResponse.from_orm(aluna)
 
@@ -49,7 +49,7 @@ def delete_by_id(id: str, database: Session = Depends(get_database)):
     '''Dado o ID da aluna, deleta o objeto da DB por meio do método DELETE'''
     if not AlunasRepository.exists_by_id(database, id):
         raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND, detail="aluna não encontrada"
+            status_code = status.HTTP_404_NOT_FOUND, detail="Aluna não encontrada"
         )
     AlunasRepository.delete_by_id(database, id)
     return Response(status_code = status.HTTP_204_NO_CONTENT)

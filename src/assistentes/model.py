@@ -2,9 +2,9 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from ..database import Base
 
-class Alunas(Base):
+class Assistentes(Base):
     '''Classe para estabelecer o modelo da tabela na DB'''
-    __tablename__ = "alunas"
+    __tablename__ = "assistentes"
 
     id: int = Column(Integer, primary_key = True, index = True)
     nome: str = Column(String(100), nullable = False)
