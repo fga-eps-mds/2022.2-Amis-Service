@@ -22,3 +22,8 @@ class AlunasResponse(AlunasBase):
     id: int
     class Config:
         orm_mode = True
+
+class AlunasCountResponse(BaseModel):
+    count: int
+    class Config:
+        orm_mode = True

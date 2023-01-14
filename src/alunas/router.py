@@ -3,7 +3,7 @@ from ..database import engine, Base, get_db as get_database
 from fastapi import APIRouter, status, HTTPException, Response, Depends
 from .model import Alunas
 from .repository import AlunasRepository
-from .schema import AlunasRequest, AlunasResponse
+from .schema import AlunasCountResponse, AlunasRequest, AlunasResponse
 
 Base.metadata.create_all(bind=engine)
 
@@ -64,3 +64,11 @@ def update(id: str, request: AlunasRequest, database: Session = Depends(get_data
         )
     aluna = AlunasRepository.save(database, Alunas(id = id, **request.dict()))
     return AlunasResponse.from_orm(aluna)
+
+# GET COUNT ALL
+@router.get("/count", response_model=int)
+def count_all(database: Session = Depends(get_database)):
+    '''Faz uma query de contagem de alunas na DB (sem paginação)'''
+    contagem_alunas = AlunasRepository.count_all(database)
+    print("To aqui-----------------------------------------------------------------------------------------")
+    return Response(status_code = status.HTTP_204_NO_CONTENT, count=0) #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]

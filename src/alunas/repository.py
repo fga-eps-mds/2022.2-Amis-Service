@@ -39,3 +39,11 @@ class AlunasRepository:
         if alunas is not None:
             database.delete(alunas)
             database.commit()
+
+    @staticmethod
+    def count_all(database: Session) -> int:
+        '''Função para fazer uma query de todas as alunas da DB'''
+        # return database.query(Alunas).all().count()
+        return 10
+
+
