@@ -3,17 +3,20 @@ from pydantic import BaseModel
 
 class AlunasBase(BaseModel):
     '''Classe para definir os modelos recebidos na API'''
-    nome: str
-    nomeSocial: str
+    # UTILIZAR PARA TESTES LOCAIS
     cpf: Union[str, None] = None
-    rg: Union[str, None] = None
-    dNascimento: str
-    nomePai: str
-    nomeMae: str
-    deficiencia: bool
-    idEndereco: int
-    #observacao: str
 
+    # UTILIZAR PARA SUBIR PARA PRODUÇÃO
+    # nome: str
+    # nomeSocial: str
+    # cpf: Union[str, None] = None
+    # rg: Union[str, None] = None
+    # dNascimento: str
+    # nomePai: str
+    # nomeMae: str
+    # deficiencia: bool
+    # idEndereco: int
+    #observacao: str
 
 class AlunasRequest(AlunasBase):
     '''...'''
