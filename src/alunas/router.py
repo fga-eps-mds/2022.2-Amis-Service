@@ -66,9 +66,9 @@ def update(id: str, request: AlunasRequest, database: Session = Depends(get_data
     return AlunasResponse.from_orm(aluna)
 
 # GET COUNT ALL
-@router.get("/count", response_model=int)
+@router.get("/count/{aluna}")
 def count_all(database: Session = Depends(get_database)):
     '''Faz uma query de contagem de alunas na DB (sem paginação)'''
-    contagem_alunas = AlunasRepository.count_all(database)
+    count = AlunasRepository.count_all(database)
     print("To aqui-----------------------------------------------------------------------------------------")
-    return Response(status_code = status.HTTP_204_NO_CONTENT, count=0) #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]
+    return {"count":count} #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]
