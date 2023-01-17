@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from .model import Turmas
+from ..model.model import Turmas
+# from .model import Turmas
 
 class TurmasRepository:
     @staticmethod
