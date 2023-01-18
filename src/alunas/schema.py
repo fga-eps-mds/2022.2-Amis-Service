@@ -12,6 +12,8 @@ class AlunasBase(BaseModel):
     nomeMae: str
     deficiencia: bool
     idEndereco: int
+    formada: bool = False
+
 
 class AlunasRequest(AlunasBase):
     '''...'''

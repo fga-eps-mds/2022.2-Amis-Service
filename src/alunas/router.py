@@ -66,9 +66,16 @@ def update(id: str, request: AlunasRequest, database: Session = Depends(get_data
     return AlunasResponse.from_orm(aluna)
 
 # GET COUNT ALL
-@router.get("/count/{aluna}")
+@router.get("/count/")
 def count_all(database: Session = Depends(get_database)):
     '''Faz uma query de contagem de alunas na DB (sem paginação)'''
     count = AlunasRepository.count_all(database)
-    print("To aqui-----------------------------------------------------------------------------------------")
     return {"count":count} #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]
+
+# GET COUNT ALL FORMADAS
+@router.get("/count/formada")
+def count_formada(database: Session = Depends(get_database)):
+    '''Faz uma query de contagem de alunas formadas na DB (sem paginação)'''
+    count_formada = AlunasRepository.count_formada(database)
+    return {"count":count_formada} #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]
+

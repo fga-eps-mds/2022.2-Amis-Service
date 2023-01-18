@@ -85,5 +85,5 @@ async def test_delete_by_id_alunas():
 async def test_count_alunas():
     '''Função para testar o count de alunas'''
     async with AsyncClient(app = app, base_url = HTTPS_ALUNAS) as async_client:
-        response = await async_client.get("/alunas/")
+        response = await async_client.get("/alunas/count/")
     assert response.status_code == 204
