@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class MatriculaBase(BaseModel):
     '''Classe para definir os modelos recebidos na API'''
     idTurma: int
-    idAluna: int
+    idAluna: str
 
 
 class MatriculaRequest(MatriculaBase):
@@ -13,7 +13,7 @@ class MatriculaRequest(MatriculaBase):
 class MatriculaResponse(MatriculaBase):
     '''...'''
     idTurma: int
-    idAluna: int
+    idAluna: str
     
     class Config:
         orm_mode = True

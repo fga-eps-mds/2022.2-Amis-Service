@@ -7,16 +7,14 @@ class AlunasBase(BaseModel):
     cpf: Union[str, None] = None
 
     # UTILIZAR PARA SUBIR PARA PRODUÇÃO
-    # nome: str
-    # nomeSocial: str
-    # cpf: Union[str, None] = None
-    # rg: Union[str, None] = None
-    # dNascimento: str
-    # nomePai: str
-    # nomeMae: str
-    # deficiencia: bool
-    # idEndereco: int
-    #observacao: str
+    nome: str
+    nomeSocial: str
+    rg: Union[str, None] = None
+    dNascimento: str
+    nomePai: str
+    nomeMae: str
+    deficiencia: bool
+    idEndereco: int
 
 class AlunasRequest(AlunasBase):
     '''...'''

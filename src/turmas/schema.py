@@ -4,16 +4,16 @@ from pydantic import BaseModel
 class TurmasBase(BaseModel):
     '''Classe para definir os modelos recebidos na API'''
     # UTILIZAR PARA TESTES LOCAIS
-    descricao: str 
+    # descricao: str 
 
     # UTILIZAR PARA SUBIR PARA PRODUÇÃO
-    # descricao: str 
-    # turno: str 
-    # capacidade: int 
-    # horarioInicio: str  
-    # horarioFim: str  
-    # dataInicio: str  
-    # dataFim: str
+    descricao: str 
+    turno: str 
+    capacidade: int 
+    horarioInicio: str  
+    horarioFim: str  
+    dataInicio: str  
+    dataFim: str
     
 class TurmasRequest(TurmasBase):
     '''...'''
