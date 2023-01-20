@@ -57,7 +57,7 @@ def delete_by_id(id: str, database: Session = Depends(get_database)):
 # UPDATE BY ID
 @router.put("/{id}", response_model = AssistentesResponse)
 def update(id: str, request: AssistentesRequest, database: Session = Depends(get_database)):
-    '''Dado o ID da asssistente, atualiza os dados cadastrais na DB por meio do método PUT'''
+    '''Dado o ID da assistente, atualiza os dados cadastrais na DB por meio do método PUT'''
     if not AssistentesRepository.exists_by_id(database, id):
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND, detail = "Assistente não encontrada"

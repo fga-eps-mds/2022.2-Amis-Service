@@ -3,14 +3,10 @@ from ..main import app
 from httpx import AsyncClient
 
 NOME = 'Maria das Dores de Souza'
-NOME_SOCIAL = 'Mariela'
 CPF = '50070792003'
-RG = '2154992'
-DATA_NASC = '12/02/1970'
-NOME_PAI = 'Joao'
-NOME_MAE = 'Joana'
-DEFICIENCIA = False
-ENDERECO_ID = 1
+LOGIN = 'maria@email.com'
+OBSERVACAO = 'teste'
+ADMINISTRADOR = True
 
 GLOBAL_RESPONSE = []
 HTTPS_ASSISTENTE = "https://assistentes"
@@ -21,14 +17,10 @@ async def test_create_assistente():
     '''Função para testar a criação de uma assistente'''
     data = {
         "nome": NOME,
-        "nomeSocial": NOME_SOCIAL,
         "cpf": CPF,
-        "rg": RG,
-        "dNascimento": DATA_NASC,
-        "nomePai": NOME_PAI,
-        "nomeMae": NOME_MAE,
-        "deficiencia": DEFICIENCIA,
-        "idEndereco": ENDERECO_ID
+        "login": LOGIN,
+        "observacao": OBSERVACAO,
+        "administrador": ADMINISTRADOR
     }
     async with AsyncClient(app = app, base_url = HTTPS_ASSISTENTE) as async_client:
         response = await async_client.post("/assistentes/", json=data)
@@ -58,14 +50,10 @@ async def test_update_by_id_assistente():
     '''Função para testar modificação de objeto assistente por ID'''
     data = {
         "nome": NOME,
-        "nomeSocial": 'Felipe',
         "cpf": CPF,
-        "rg": RG,
-        "dNascimento": '00/00/00',
-        "nomePai": NOME_PAI,
-        "nomeMae": NOME_MAE,
-        "deficiencia": DEFICIENCIA,
-        "idEndereco": ENDERECO_ID
+        "login": LOGIN,
+        "observacao": OBSERVACAO,
+        "administrador": ADMINISTRADOR
     }
 
     async with AsyncClient(app = app, base_url = HTTPS_ASSISTENTE) as async_client:
@@ -79,5 +67,5 @@ async def test_delete_by_id_assistente():
     async with AsyncClient(app = app, base_url = HTTPS_ASSISTENTE) as async_client:
         
         response = await async_client.delete(f"/assistentes/{GLOBAL_RESPONSE.json()['id']}")
-    print(response)        
+    print(response)
     assert response.status_code == 204

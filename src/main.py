@@ -3,15 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 # UTILIZAR PARA RODAR LOCALMENTE
-# origins = ["*"]
+origins = ["*"]
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Routers
 from .assistentes.router import router as assistentes_router
