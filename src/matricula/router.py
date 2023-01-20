@@ -29,8 +29,14 @@ def find_all(database: Session = Depends(get_database)):
 )
 def create(request: MatriculaRequest, database: Session = Depends(get_database)):
     '''Cria e salva um objeto matricula por meio do método POST'''
-    novaMatricula = MatriculaRepository.save(database, Matricula(**request.dict()))
-    return novaMatricula
+    try:
+        novaMatricula = MatriculaRepository.save(database, Matricula(**request.dict()))
+        return novaMatricula
+    except Exception as error:
+        print(error)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail = str(error)
+        )
 
 # FIND BY ID
 @router.get("/{id}", response_model = List[MatriculaResponse])
