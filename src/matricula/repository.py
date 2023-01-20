@@ -1,4 +1,6 @@
 from sqlalchemy.orm import Session
+
+from src.alunas.repository import AlunasRepository
 from ..model.model import Matricula
 # from ..model.model import matricula
 # from .model import matricula
@@ -7,14 +9,27 @@ class MatriculaRepository:
     @staticmethod
     def save(database: Session, novaMatricula: Matricula) -> Matricula:
         '''Função para salvar um objeto matricula na DB'''
-        print("aqui 2")
-        print(novaMatricula.idTurma)
-        if novaMatricula.idTurma:
-            # if novaMatricula.idAluna:
-            database.merge(novaMatricula)
-        else:
-            database.add(novaMatricula)
-        database.commit()
+        idsAluna = novaMatricula.idAluna.split(',')
+        idAlunaReturn = []
+        
+        for id in idsAluna:
+            if (AlunasRepository.exists_by_id(database, id)):
+                if novaMatricula.idTurma:
+                    novaMatricula.idAluna = int(id) 
+                    database.merge(novaMatricula)
+                    database.commit()
+                    idAlunaReturn.append(id)
+
+                else:
+                    novaMatricula.idAluna = int(id)
+                    database.add(novaMatricula)
+                    database.commit()
+                    idAlunaReturn.append(id)
+            else:
+                raise Exception("Aluna id" + id + " não matriculada.")
+
+
+        novaMatricula.idAluna = ','.join(idAlunaReturn)
         return novaMatricula
     
     @staticmethod
