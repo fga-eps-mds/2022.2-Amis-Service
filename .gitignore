@@ -1,8 +1,35 @@
-venv/
-__pycache__
+# Arquivos proprios do projeto a serem ignorados
 .env
 db-volume
-.coverage
 junit.xml
-
 analytics-raw-data/*
+
+# Arquivos padrões do fastapi para serem ignorados
+.tox
+.pytest_cache
+
+.idea
+.ipynb_checkpoints
+.mypy_cache
+.vscode
+__pycache__
+.pytest_cache
+htmlcov
+dist
+site
+.coverage
+coverage.xml
+.netlify
+test.db
+log.txt
+Pipfile.lock
+env3.*
+env
+docs_build
+venv
+docs.zip
+archive.zip
+
+# vim temporary files
+*~
+.*.sw?
