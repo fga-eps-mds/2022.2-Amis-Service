@@ -1,0 +1,6 @@
+venv
+db-volume
+.pytest_cache
+.tox
+.github
+__pycache__
