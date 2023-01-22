@@ -6,6 +6,7 @@ from fastapi import APIRouter, status, HTTPException, Response, Depends
 from ..model.model import Matricula
 from .repository import MatriculaRepository
 from .schema import MatriculaRequest, MatriculaResponse
+from ..alunas.repository import AlunasRepository
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,13 +34,12 @@ def create(request: MatriculaRequest, database: Session = Depends(get_database))
         novaMatricula = MatriculaRepository.save(database, Matricula(**request.dict()))
         return novaMatricula
     except Exception as error:
-        print(error)
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail = str(error)
         )
 
 # FIND BY ID
-@router.get("/{id}", response_model = List[MatriculaResponse])
+@router.get("/{id}", response_model = {})
 def find_by_id(id: str, database: Session = Depends(get_database)):
     '''Dado o ID como parâmetro, encontra a matricula com esse ID'''
     matricula = MatriculaRepository.find_by_id(database, id)
@@ -52,7 +52,10 @@ def find_by_id(id: str, database: Session = Depends(get_database)):
     returnMatricula = []
 
     for m in matricula:
-        returnMatricula.append({"idTurma": m.idTurma, "idAluna": m.idAluna})
+        aluna = AlunasRepository.find_by_id(database, m.idAluna)
+        returnMatricula.append(
+            aluna
+        )
 
     return returnMatricula
 
