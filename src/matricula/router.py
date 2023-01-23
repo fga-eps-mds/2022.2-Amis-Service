@@ -7,6 +7,7 @@ from ..model.model import Matricula
 from .repository import MatriculaRepository
 from .schema import MatriculaRequest, MatriculaResponse
 from ..alunas.repository import AlunasRepository
+from ..turmas.repository import TurmasRepository
 
 Base.metadata.create_all(bind=engine)
 
@@ -70,3 +71,21 @@ def delete_by_id(idTurma: str, idAluna: str, database: Session = Depends(get_dat
     
     MatriculaRepository.delete_by_id(database, idTurma, idAluna)
     return Response(status_code = status.HTTP_204_NO_CONTENT)
+
+# CONSULTAR VAGAS TOTAIS E PREENCHIDAS NA TURMA BY ID
+@router.get("/turma/{id}", response_model = {})
+def find_qtd_vagas_by_id(id: str, database: Session = Depends(get_database)):
+    '''Dado o ID como parâmetro, retorna a qtd de matricula nessa turma'''
+
+    turma = TurmasRepository.find_by_id(database, id)
+    print(turma)
+    vagasTotais = turma.capacidade
+    matricula = len(MatriculaRepository.find_by_id(database, id))
+    vagasDisponiveis = vagasTotais - matricula
+
+    vagas = {
+        "vagasTotais": vagasTotais,
+        "vagasDisponiveis": vagasDisponiveis
+    }
+
+    return vagas

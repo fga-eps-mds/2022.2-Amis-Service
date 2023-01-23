@@ -24,6 +24,11 @@ class TurmasRepository:
         return database.query(Turmas).filter(Turmas.turno == turno).first()
 
     @staticmethod
+    def find_by_id(database: Session, id: str) -> Turmas:
+        '''Função para fazer uma query por turma de um objeto turma na DB'''
+        return database.query(Turmas).filter(Turmas.id == id).first()
+
+    @staticmethod
     def exists_by_turno(database: Session, turno: str) -> bool:
         '''Função que verifica se o turno dado existe na DB'''
         return database.query(Turmas).filter(Turmas.turno == turno).first() is not None
