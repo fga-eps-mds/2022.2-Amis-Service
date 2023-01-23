@@ -1,7 +1,7 @@
 from pydantic import BaseSettings
 
 class Settings(BaseSettings):
-    db_connect_url: str = "mysql+pymysql://root:password@db/db"
+    db_connect_url: str
 
     class Config:
         env_file = ".env"
