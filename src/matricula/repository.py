@@ -46,13 +46,16 @@ class MatriculaRepository:
     def exists_by_id(database: Session, idTurma: int, idAluna: int) -> bool:
         '''Função que verifica se a turma e aluna existe pelo ID dado na DB'''
         turma = database.query(Matricula).filter(Matricula.idTurma == idTurma, Matricula.idAluna == idAluna).first()
+        print(turma)
+
         print(turma.idTurma, turma.idAluna)
         return turma is not None
 
     @staticmethod
     def delete_by_id(database: Session, idTurma: str, idAluna: str) -> None:
         '''Função para excluir uma aluna da turma no DB dado seu ID'''
-        aluna = database.query(Matricula).filter(Matricula.idTurma == idTurma and Matricula.idAluna == idAluna).first()
+        aluna = database.query(Matricula).filter(Matricula.idTurma == idTurma, Matricula.idAluna == idAluna).first()
+
         if aluna is not None:
             database.delete(aluna)
             database.commit()
