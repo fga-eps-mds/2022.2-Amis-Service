@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from ..database import engine, Base, get_db as get_database
+from database import engine, Base, get_db as get_database
 from fastapi import APIRouter, status, HTTPException, Response, Depends
 from .model import Alunas
 from .repository import AlunasRepository
@@ -22,6 +22,7 @@ def create(request: AlunasRequest, database: Session = Depends(get_database)):
     alunas = AlunasRepository.save(database, Alunas(**request.dict()))
     return alunas
 
+get_session = get_database
 
 # GET ALL
 @router.get("/", response_model = list[AlunasResponse])

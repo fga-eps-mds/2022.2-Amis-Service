@@ -1,6 +1,6 @@
 '''Importando parâmetros da orm'''
 from sqlalchemy import Column, Integer, String, Boolean
-from ..database import Base
+from database import Base
 
 class Alunas(Base):
     '''Classe para estabelecer o modelo da tabela na DB'''
