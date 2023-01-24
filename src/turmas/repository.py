@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from .model import Turmas
+from ..model.model import Turmas
+# from .model import Turmas
 
 class TurmasRepository:
     @staticmethod
@@ -21,6 +22,11 @@ class TurmasRepository:
     def find_by_turno(database: Session, turno: str) -> Turmas:
         '''Função para fazer uma query por turno de um objeto turma na DB'''
         return database.query(Turmas).filter(Turmas.turno == turno).first()
+
+    @staticmethod
+    def find_by_id(database: Session, id: str) -> Turmas:
+        '''Função para fazer uma query por turma de um objeto turma na DB'''
+        return database.query(Turmas).filter(Turmas.id == id).first()
 
     @staticmethod
     def exists_by_turno(database: Session, turno: str) -> bool:

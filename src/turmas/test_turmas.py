@@ -1,5 +1,5 @@
 import pytest
-from main import app
+from ..main import app
 from httpx import AsyncClient
 
 DESCRICAO = 'Turma biscoito 101'

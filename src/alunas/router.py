@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from ..database import engine, Base, get_db as get_database
 from fastapi import APIRouter, status, HTTPException, Response, Depends
-from .model import Alunas
+from ..model.model import Alunas
+# from .model import Alunas
 from .repository import AlunasRepository
 from .schema import AlunasRequest, AlunasResponse
 

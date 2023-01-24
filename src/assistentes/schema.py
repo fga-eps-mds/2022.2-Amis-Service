@@ -4,15 +4,11 @@ from pydantic import BaseModel
 class AssistentesBase(BaseModel):
     '''Classe para definir os modelos recebidos na API'''
     nome: str
-    nomeSocial: str
     cpf: Union[str, None] = None
-    rg: Union[str, None] = None
-    dNascimento: str
-    nomePai: str
-    nomeMae: str
-    deficiencia: bool
-    idEndereco: int
-    #observacao: str
+    login: str
+    ##senha: str
+    observacao: str
+    administrador: bool
 
 class AssistentesRequest(AssistentesBase):
     '''...'''
