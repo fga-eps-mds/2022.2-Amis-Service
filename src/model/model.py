@@ -40,6 +40,7 @@ class Alunas(Base):
     nomeMae: str = Column(String(100), nullable = True)
     deficiencia: Boolean = Column(Boolean, nullable = False)
     idEndereco: int = Column(Integer, nullable = False)
+    formada: Boolean = Column(Boolean, nullable = False)
 
 class Assistentes(Base):
     '''Classe para estabelecer o modelo da tabela na DB'''
