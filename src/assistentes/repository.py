@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .model import Assistentes
+from ..model.model import Assistentes
 
 class AssistentesRepository:
     @staticmethod

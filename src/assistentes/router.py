@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from ..database import engine, Base, get_db as get_database
 from fastapi import APIRouter, status, HTTPException, Response, Depends
-from .model import Assistentes
+from ..model.model import Assistentes
 from .repository import AssistentesRepository
 from .schema import AssistentesRequest, AssistentesResponse
 
