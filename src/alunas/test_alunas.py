@@ -93,3 +93,13 @@ async def test_count_alunas(database: Session = get_db()):
         response = await async_client.get("/alunas/count/")
         response = response.json()
     assert response["count"] == AlunasRepository.count_all(database)
+
+
+# GET COUNT FORMADAS
+@pytest.mark.asyncio
+async def test_count_alunas_formadas(database: Session = get_db()):
+    '''Função para testar o count de alunas formadas'''
+    async with AsyncClient(app = app, base_url = HTTPS_ALUNAS) as async_client:
+        response = await async_client.get("/alunas/count/formada")
+        response = response.json()
+    assert response["count"] == AlunasRepository.count_formada(database)
