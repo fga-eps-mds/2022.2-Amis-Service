@@ -78,6 +78,10 @@ def find_qtd_vagas_by_id(id: str, database: Session = Depends(get_database)):
     '''Dado o ID como parâmetro, retorna a qtd de matricula nessa turma'''
 
     turma = TurmasRepository.find_by_id(database, id)
+    if not turma:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail = "Turma não encontrada"
+        )
     print(turma)
     vagasTotais = turma.capacidade
     matricula = len(MatriculaRepository.find_by_id(database, id))
