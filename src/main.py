@@ -2,7 +2,6 @@ from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
-# UTILIZAR PARA RODAR LOCALMENTE
 origins = ["*"]
 
 app.add_middleware(
@@ -19,7 +18,7 @@ from .alunas.router import router as aluna_router
 from .turmas.router import router as turma_router
 from .matricula.router import router as matricula_router
 
-from .config import settings
+from config import settings
 
 app.include_router(aluna_router)
 app.include_router(turma_router)

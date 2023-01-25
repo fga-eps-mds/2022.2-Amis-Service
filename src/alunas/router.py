@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-from ..database import engine, Base, get_db as get_database
+from database import engine, Base, get_db as get_database
 from fastapi import APIRouter, status, HTTPException, Response, Depends
 from ..model.model import Alunas
 # from .model import Alunas
 from .repository import AlunasRepository
-from .schema import AlunasRequest, AlunasResponse
+from .schema import AlunasCountResponse, AlunasRequest, AlunasResponse
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,6 +23,7 @@ def create(request: AlunasRequest, database: Session = Depends(get_database)):
     alunas = AlunasRepository.save(database, Alunas(**request.dict()))
     return alunas
 
+get_session = get_database
 
 # GET ALL
 @router.get("/", response_model = list[AlunasResponse])
@@ -65,3 +66,18 @@ def update(id: str, request: AlunasRequest, database: Session = Depends(get_data
         )
     aluna = AlunasRepository.save(database, Alunas(id = id, **request.dict()))
     return AlunasResponse.from_orm(aluna)
+
+# GET COUNT ALL
+@router.get("/count/")
+def count_all(database: Session = Depends(get_database)):
+    '''Faz uma query de contagem de alunas na DB (sem paginação)'''
+    count = AlunasRepository.count_all(database)
+    return {"count":count} #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]
+
+# GET COUNT ALL FORMADAS
+@router.get("/count/formada")
+def count_formada(database: Session = Depends(get_database)):
+    '''Faz uma query de contagem de alunas formadas na DB (sem paginação)'''
+    count_formada = AlunasRepository.count_formada(database)
+    return {"count":count_formada} #[ImpactadasResponse.from_orm(impactada) for impactada in impactadas]
+

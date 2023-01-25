@@ -15,6 +15,8 @@ class AlunasBase(BaseModel):
     nomeMae: str
     deficiencia: bool
     idEndereco: int
+    formada: bool = False
+
 
 class AlunasRequest(AlunasBase):
     '''...'''
@@ -23,5 +25,10 @@ class AlunasResponse(AlunasBase):
     '''...'''
     cpf: str
     id: int
+    class Config:
+        orm_mode = True
+
+class AlunasCountResponse(BaseModel):
+    count: int
     class Config:
         orm_mode = True

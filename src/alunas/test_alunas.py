@@ -1,6 +1,11 @@
 import pytest
 from ..main import app
 from httpx import AsyncClient
+from .repository import AlunasRepository
+from database import engine, Base, get_db 
+from sqlalchemy.orm import Session
+
+Base.metadata.create_all(bind=engine)
 
 NOME = 'Maria das Dores de Souza'
 NOME_SOCIAL = 'Mariela'
@@ -79,3 +84,12 @@ async def test_delete_by_id_alunas():
     async with AsyncClient(app = app, base_url = HTTPS_ALUNAS) as async_client:
         response = await async_client.delete(f"/alunas/{GLOBAL_RESPONSE.json()['id']}")
     assert response.status_code == 204
+
+# GET COUNT
+@pytest.mark.asyncio
+async def test_count_alunas(database: Session = get_db()):
+    '''Função para testar o count de alunas'''
+    async with AsyncClient(app = app, base_url = HTTPS_ALUNAS) as async_client:
+        response = await async_client.get("/alunas/count/")
+        response = response.json()
+    assert response["count"] == AlunasRepository.count_all(database)
