@@ -3,8 +3,8 @@ from datetime import datetime
 import sys
 import os
 
-SONAR_API='https://sonarcloud.io/api/measures/component'
 COMPONENT_KEY='fga-eps-mds_2022.2-Amis-Service'
+SONAR_API=F'https://sonarcloud.io/api/measures/component_tree?component={COMPONENT_KEY}'
 TODAY=datetime.now()
 REPOSITORY=sys.argv[1]
 RELEASE_VERSION=sys.argv[2]
