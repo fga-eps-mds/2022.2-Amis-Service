@@ -44,6 +44,17 @@ def find_by_turno(turno: str, database: Session = Depends(get_database)):
         )
     return TurmasResponse.from_orm(turma)
 
+# READ BY id
+@router.get("/{id}", response_model = TurmasResponse)
+def find_by_id(id_turma: str, database: Session = Depends(get_database)):
+    '''Dado o Turno como parâmetro, encontra a turma com esse Turno'''
+    turma = TurmasRepository.find_by_id(database, id_turma)
+    if not turma:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail = "turma não encontrada"
+        )
+    return TurmasResponse.from_orm(turma)
+
 # DELETE BY id
 @router.delete("/{id}", status_code = status.HTTP_204_NO_CONTENT)
 def delete_by_id(id: str, database: Session = Depends(get_database)):
