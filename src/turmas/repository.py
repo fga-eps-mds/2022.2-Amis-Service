@@ -21,7 +21,7 @@ class TurmasRepository:
     @staticmethod
     def find_by_turno(database: Session, turno: str) -> Turmas:
         '''Função para fazer uma query por turno de um objeto turma na DB'''
-        return database.query(Turmas).filter(Turmas.turno == turno).first()
+        return database.query(Turmas).filter(Turmas.turno == turno).all()
 
     @staticmethod
     def find_by_id(database: Session, id: str) -> Turmas:
