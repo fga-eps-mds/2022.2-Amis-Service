@@ -6,7 +6,7 @@ class AssistentesBase(BaseModel):
     nome: str
     cpf: Union[str, None] = None
     login: str
-    ##senha: str
+    senha: str
     observacao: str
     administrador: bool
 
