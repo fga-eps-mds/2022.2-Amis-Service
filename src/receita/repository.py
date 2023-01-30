@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, exc
 from ..model.model import ModoPreparo, Receita, Ingrediente
 
 class ReceitasRepository:
@@ -17,17 +17,30 @@ class ReceitasRepository:
         database.commit()
         return receita_object
     
+    @staticmethod
     def find_all(database: Session) -> list[Receita]:
         '''Funcao para encontrar todas as receitas'''
         response = database.query(Receita).all()
         return response
     
+    @staticmethod
     def find_by_id(database: Session, receita_id: int) -> list[Receita]:
         '''Funcao para encontrar uma receita pelo id'''
         response = database.query(Receita).filter(
             Receita.id == receita_id
             ).first()
         return response
+    
+    @staticmethod
+    def delete_by_id(database: Session, receita_id: int) -> None:
+        '''Funcao para deletar as Receitas pelo id'''
+        receita = ReceitasRepository.find_by_id(database, receita_id)
+
+        if receita is not None:
+            database.delete(receita)
+            database.commit()
+        else:
+            raise exc.NoResultFound
         
 
 class IngredienteRepository:

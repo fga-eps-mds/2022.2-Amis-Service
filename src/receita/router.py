@@ -1,5 +1,6 @@
 from ..database import engine, Base, get_db as get_database
-from fastapi import APIRouter, status
+from sqlalchemy.orm.exc import NoResultFound
+from fastapi import APIRouter, HTTPException, Response, status
 from ..model.model import Ingrediente, ModoPreparo, Receita
 from .repository import (
     IngredienteRepository, 
@@ -61,6 +62,29 @@ def get_all():
     status_code=200
 )
 def get_by_id(receita_id: int):
-    with get_database() as database:
-        response = ReceitasRepository.find_by_id(database, receita_id)
+    try:
+        with get_database() as database:
+            response = ReceitasRepository.find_by_id(database, receita_id)
+    except NoResultFound:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Receita não encontrada"
+        )
     return response
+
+
+@router.delete("/{receita_id}",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+def delete(receita_id: int):
+    try:
+        with get_database() as database:
+            ReceitasRepository.delete_by_id(database, receita_id)
+        return Response(
+            status_code=status.HTTP_204_NO_CONTENT
+        )
+    except NoResultFound as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Receita nao encontrada"
+        )
