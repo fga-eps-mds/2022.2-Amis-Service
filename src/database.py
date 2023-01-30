@@ -15,7 +15,6 @@ Base = declarative_base()
 
 def get_db():
     db = SessionLocal()
-    return db
     try:
         return db
     finally:

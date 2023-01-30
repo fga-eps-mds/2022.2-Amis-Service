@@ -1,0 +1,25 @@
+import inspect
+from sqlalchemy.orm import Session
+from ..model.model import Receita, Ingrediente
+
+class ReceitasRepository:
+    @staticmethod
+    def save(database: Session, receita_object: Receita, receita_id: int = None) -> Receita:
+        '''Função para salvar um objeto assistente na DB'''
+        if receita_id:
+            database.merge(receita_object)
+        else:
+            database.add(receita_object)
+        database.flush()
+        return receita_object
+
+class IngredienteRepository:
+    @staticmethod
+    def save(database: Session, ingrediente_object: Ingrediente, ingrediente_id: int = None) -> Ingrediente:
+        '''Função para salvar um objeto assistente na DB'''
+        if ingrediente_id:
+            database.merge(ingrediente_object)
+        else:
+            database.add(ingrediente_object)
+        database.flush()
+        return ingrediente_object

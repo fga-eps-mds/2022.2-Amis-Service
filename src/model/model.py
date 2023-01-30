@@ -1,6 +1,10 @@
 '''Importando parâmetros da orm'''
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum, DateTime
+from sqlalchemy.orm import relationship
+from datetime import datetime
+
+from ..receita.schema import ReceitasRequest
 
 from ..database import Base
 
@@ -53,3 +57,26 @@ class Assistentes(Base):
     cpf: str = Column(String(11), nullable = False)
     observacao: str = Column(String(200), nullable = True)
     administrador: bool = Column(Boolean, nullable = False)
+
+class Receita(Base):
+    '''Classe para estabelecer o modelo da tabela na DB'''
+    __tablename__ = "receita"
+
+    def __init__(self, receita: ReceitasRequest) -> None:
+        self.nome = receita.nome
+        
+    id: int = Column(Integer, primary_key = True, index = True, autoincrement=True)
+    nome: str = Column(String(100), nullable = False)
+    ingredientes = relationship('Ingrediente', backref='Receita')
+
+    created_at = Column(DateTime, default=datetime.now())
+
+class Ingrediente(Base):
+    """Tabela para representar um ingrediente na receita"""
+    __tablename__ = "ingrediente"
+
+    id: int =  Column(Integer, primary_key = True, index = True, autoincrement=True)
+    receita_id: int = Column(Integer, ForeignKey("receita.id"), index=True, nullable=False)
+    descricao: str = Column(String(100), nullable=False) 
+
+    
