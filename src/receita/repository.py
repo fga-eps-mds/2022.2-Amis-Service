@@ -1,4 +1,3 @@
-import inspect
 from sqlalchemy.orm import Session
 from ..model.model import Receita, Ingrediente
 
@@ -11,7 +10,14 @@ class ReceitasRepository:
         else:
             database.add(receita_object)
         database.flush()
+        database.commit()
         return receita_object
+    
+    def find_all(database: Session) -> list[Receita]:
+        '''Funcao para encontrar todas as receitas'''
+        response = database.query(Receita).all()
+        return response
+        
 
 class IngredienteRepository:
     @staticmethod
@@ -21,5 +27,5 @@ class IngredienteRepository:
             database.merge(ingrediente_object)
         else:
             database.add(ingrediente_object)
-        database.flush()
+        database.commit()
         return ingrediente_object

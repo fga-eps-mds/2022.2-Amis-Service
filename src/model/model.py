@@ -4,8 +4,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum, DateT
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-from ..receita.schema import ReceitasRequest
-
 from ..database import Base
 
 class Matricula(Base):
@@ -62,12 +60,12 @@ class Receita(Base):
     '''Classe para estabelecer o modelo da tabela na DB'''
     __tablename__ = "receita"
 
-    def __init__(self, receita: ReceitasRequest) -> None:
-        self.nome = receita.nome
+    def __init__(self, receita: dict) -> None:
+        self.nome = receita['nome']
         
     id: int = Column(Integer, primary_key = True, index = True, autoincrement=True)
     nome: str = Column(String(100), nullable = False)
-    ingredientes = relationship('Ingrediente', backref='Receita')
+    ingredientes = relationship('Ingrediente', backref='Receita', lazy='joined')
 
     created_at = Column(DateTime, default=datetime.now())
 
