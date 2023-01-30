@@ -7,7 +7,7 @@ from .repository import (
     ModoPreparoRepository, 
     ReceitasRepository
 )
-from .schema import ReceitasRequest, ReceitasResponse
+from .schema import ReceitasBase, ReceitasRequest, ReceitasResponse
 
 Base.metadata.create_all(bind=engine)
 
@@ -88,3 +88,20 @@ def delete(receita_id: int):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Receita nao encontrada"
         )
+
+@router.put("/{receita_id}",
+    response_model=ReceitasResponse,
+    status_code = status.HTTP_200_OK
+)
+def update(receita_id: int, request: ReceitasBase):
+    try: 
+        with get_database() as database:
+            ReceitasRepository.save(database, Receita(request.__dict__), receita_id)
+            response = ReceitasRepository.find_by_id(database, receita_id)
+    except NoResultFound as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Receita/ingredientes/modopreparo não encontrados"
+        )
+
+    return response

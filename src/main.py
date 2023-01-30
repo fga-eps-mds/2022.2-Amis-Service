@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
@@ -18,8 +18,6 @@ from .alunas.router import router as aluna_router
 from .turmas.router import router as turma_router
 from .matricula.router import router as matricula_router
 from .receita.router import router as receita_router
-
-from .config import settings
 
 app.include_router(aluna_router)
 app.include_router(turma_router)

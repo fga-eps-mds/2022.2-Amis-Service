@@ -10,6 +10,7 @@ class ReceitasRepository:
     ) -> Receita:
         '''Função para salvar um objeto assistente na DB'''
         if receita_id:
+            receita_object.id = receita_id
             database.merge(receita_object)
         else:
             database.add(receita_object)
