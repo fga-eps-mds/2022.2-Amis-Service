@@ -63,9 +63,15 @@ class Receita(Base):
     def __init__(self, receita: dict) -> None:
         self.nome = receita['nome']
         
-    id: int = Column(Integer, primary_key = True, index = True, autoincrement=True)
+    id: int = Column(
+        Integer, 
+        primary_key = True, 
+        index = True, 
+        autoincrement=True
+    )
     nome: str = Column(String(100), nullable = False)
     ingredientes = relationship('Ingrediente', backref='Receita', lazy='joined')
+    modo_preparo = relationship('ModoPreparo', backref='Receita', lazy='joined')
 
     created_at = Column(DateTime, default=datetime.now())
 
@@ -73,8 +79,36 @@ class Ingrediente(Base):
     """Tabela para representar um ingrediente na receita"""
     __tablename__ = "ingrediente"
 
-    id: int =  Column(Integer, primary_key = True, index = True, autoincrement=True)
-    receita_id: int = Column(Integer, ForeignKey("receita.id"), index=True, nullable=False)
+    id: int =  Column(
+        Integer, 
+        primary_key = True, 
+        index = True, 
+        autoincrement=True
+    )
+    receita_id: int = Column(
+        Integer, 
+        ForeignKey("receita.id"), 
+        index=True, 
+        nullable=False
+    )
+    descricao: str = Column(String(100), nullable=False) 
+
+class ModoPreparo(Base):
+    """Tabela para representar um ingrediente na receita"""
+    __tablename__ = "modo_preparo"
+
+    id: int =  Column(
+        Integer, 
+        primary_key = True, 
+        index = True,
+        autoincrement=True
+    )
+    receita_id: int = Column(
+        Integer, 
+        ForeignKey("receita.id"), 
+        index=True, 
+        nullable=False
+    )
     descricao: str = Column(String(100), nullable=False) 
 
     

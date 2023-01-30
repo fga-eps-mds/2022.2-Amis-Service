@@ -1,4 +1,3 @@
-from typing import Union
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -17,6 +16,7 @@ class ReceitasResponse(ReceitasBase):
     id: int
     created_at: datetime
     ingredientes: list
+    modo_preparo: list
     # modo_preparo: list[str]
     class Config:
         orm_mode = True
