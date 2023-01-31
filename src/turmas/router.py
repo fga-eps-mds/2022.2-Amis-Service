@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from ..database import engine, Base, get_db as get_database
-from fastapi import APIRouter, status, HTTPException, Response, Depends
-# from .model import Turmas
+from fastapi import APIRouter, status, Depends, HTTPException, Response, Depends
 from ..model.model import Turmas
 from .repository import TurmasRepository
 from .schema import TurmasRequest, TurmasResponse

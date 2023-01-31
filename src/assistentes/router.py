@@ -4,6 +4,7 @@ from fastapi import APIRouter, status, HTTPException, Response, Depends
 from ..model.model import Assistentes
 from .repository import AssistentesRepository
 from .schema import AssistentesRequest, AssistentesResponse
+from ..security import get_password_hash
 
 Base.metadata.create_all(bind=engine)
 
@@ -19,7 +20,9 @@ router = APIRouter(
 )
 def create(request: AssistentesRequest, database: Session = Depends(get_database)):
     '''Cria e salva um objeto assistente por meio do método POST'''
-    assistentes = AssistentesRepository.save(database, Assistentes(**request.dict()))
+    assistenteRequisicao = Assistentes(**request.dict())
+    assistenteRequisicao.senha = get_password_hash(assistenteRequisicao.senha)
+    assistentes = AssistentesRepository.save(database, assistenteRequisicao)
     return assistentes
 
 
