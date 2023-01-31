@@ -29,7 +29,7 @@ app.include_router(turma_router)
 app.include_router(assistentes_router)
 app.include_router(matricula_router)
 
-endpoint = ("http://172.17.0.1:8070/login/token")
+endpoint = ("https://auth-amis.azurewebsites.net/login/token")
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
