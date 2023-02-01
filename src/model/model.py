@@ -51,7 +51,7 @@ class Assistentes(Base):
     id: int = Column(Integer, primary_key = True, index = True)
     nome: str = Column(String(100), nullable = False)
     login: str = Column(String(100), nullable = False)
-    ##senha: bcrypt str = Column(String(100), nullable = False)
+    senha: str = Column(String(100), nullable = False)
     cpf: str = Column(String(11), nullable = False)
     observacao: str = Column(String(200), nullable = True)
     administrador: bool = Column(Boolean, nullable = False)
