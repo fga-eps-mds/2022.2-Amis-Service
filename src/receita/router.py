@@ -22,7 +22,7 @@ router = APIRouter(
     status_code = status.HTTP_201_CREATED
 )
 def create(request: ReceitasRequest):
-    with get_database() as database:
+    with get_database(False) as database:
         response = ReceitasRepository.save(database, Receita(request.__dict__))
         response = ReceitasResponse(
             **response.__dict__, 
@@ -95,7 +95,7 @@ def delete(receita_id: int):
 )
 def update(receita_id: int, request: ReceitasBase):
     try: 
-        with get_database() as database:
+        with get_database(False) as database:
             ReceitasRepository.save(database, Receita(request.__dict__), receita_id)
             response = ReceitasRepository.find_by_id(database, receita_id)
     except NoResultFound as error:
