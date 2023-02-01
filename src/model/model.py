@@ -62,6 +62,7 @@ class Receita(Base):
 
     def __init__(self, receita: dict) -> None:
         self.nome = receita['nome']
+        self.descricao = receita['descricao']
         
     id: int = Column(
         Integer, 
