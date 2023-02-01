@@ -25,7 +25,7 @@ class ReceitasRepository:
         return response
     
     @staticmethod
-    def find_by_id(database: Session, receita_id: int) -> list[Receita]:
+    def find_by_id(database: Session, receita_id: int) -> Receita:
         '''Funcao para encontrar uma receita pelo id'''
         response = database.query(Receita).filter(
             Receita.id == receita_id

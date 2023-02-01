@@ -72,8 +72,8 @@ class Receita(Base):
     )
     nome: str = Column(String(100), nullable = False)
     descricao: str = Column(String(256), nullable=False)
-    ingredientes = relationship('Ingrediente', backref='Receita', lazy='joined')
-    modo_preparo = relationship('ModoPreparo', backref='Receita', lazy='joined')
+    ingredientes = relationship('Ingrediente', backref='Receita', lazy='joined', cascade="all, delete-orphan")
+    modo_preparo = relationship('ModoPreparo', backref='Receita', lazy='joined', cascade="all, delete-orphan")
 
     created_at = Column(DateTime, default=datetime.now())
 
