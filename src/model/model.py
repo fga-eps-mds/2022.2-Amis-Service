@@ -70,6 +70,7 @@ class Receita(Base):
         autoincrement=True
     )
     nome: str = Column(String(100), nullable = False)
+    descricao: str = Column(String(256), nullable=False)
     ingredientes = relationship('Ingrediente', backref='Receita', lazy='joined')
     modo_preparo = relationship('ModoPreparo', backref='Receita', lazy='joined')
 

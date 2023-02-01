@@ -5,7 +5,7 @@ from datetime import datetime
 class ReceitasBase(BaseModel):
     '''Classe para definir os modelos recebidos na API'''
     nome: str
-    id: Union[None, int]
+    descricao: str
 
 
 class ReceitasRequest(ReceitasBase):
@@ -15,6 +15,7 @@ class ReceitasRequest(ReceitasBase):
 
 class ReceitasResponse(ReceitasBase):
     '''Classe para definir o modelo das respostas'''
+    id: Union[None, int]
     created_at: Union[datetime, None]
     ingredientes: list
     modo_preparo: list
