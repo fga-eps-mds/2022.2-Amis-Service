@@ -13,8 +13,8 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-def get_db():
-    db = SessionLocal(expire_on_commit=False)
+def get_db(expire_on_commit: bool = True):
+    db = SessionLocal(expire_on_commit=expire_on_commit)
     try:
         return db
     finally:
