@@ -36,7 +36,7 @@ whiteList = {"/alunas/count/formada", "/alunas/count/", "/docs", "/openapi.json"
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     print("middleware verificar token")
-    if str(request.url.path) in whiteList:
+    if str(request.url.path) in whiteList or str(request.url.path).find('receita') != -1:
         return await call_next(request)
 
     auth_token = request.headers.get('Authorization')
