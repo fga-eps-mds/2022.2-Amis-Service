@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 import requests
 
 app = FastAPI()
@@ -31,7 +32,7 @@ app.include_router(matricula_router)
 
 endpoint = ("https://auth-amis.azurewebsites.net/login/token")
 
-whiteList = {"/alunas/count/formada", "/alunas/count", "/docs", "/openapi.json"}
+whiteList = {"/alunas/count/formada", "/alunas/count/", "/docs", "/openapi.json", "/testeLogin"}
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -58,6 +59,30 @@ async def add_process_time_header(request: Request, call_next):
 
     response = await call_next(request)
     return response
+
+
+def form_body(cls):
+    cls.__signature__ = cls.__signature__.replace(
+        parameters=[
+            arg.replace(default=Form(...))
+            for arg in cls.__signature__.parameters.values()
+        ]
+    )
+    return cls
+
+@form_body
+class Item(BaseModel):
+    username: str
+    password: str
+
+@app.get('/testeLogin')
+async def test():
+    endpoint = ("https://auth-amis.azurewebsites.net/login/")
+     
+    token_validado = requests.post(endpoint, data={"username": "kalebe1@gmail.com", "password": "kalebe123"})
+    token = token_validado.json()
+    return token['access_token']
+
 
 @app.get('/')
 async def hello_world():
