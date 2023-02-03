@@ -22,22 +22,22 @@ from .assistentes.router import router as assistentes_router
 from .alunas.router import router as aluna_router
 from .turmas.router import router as turma_router
 from .matricula.router import router as matricula_router
-
-from .config import settings
+from .receita.router import router as receita_router
 
 app.include_router(aluna_router)
 app.include_router(turma_router)
 app.include_router(assistentes_router)
 app.include_router(matricula_router)
+app.include_router(receita_router)
 
 endpoint = ("https://auth-amis.azurewebsites.net/login/token")
 
-whiteList = {"/alunas/count/formada", "/alunas/count/", "/docs", "/openapi.json", "/testeLogin"}
+whiteList = {"/alunas/count/formada", "/alunas/count/", "/docs", "/openapi.json","/receita/", "/testeLogin"}
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     print("middleware verificar token")
-    if str(request.url.path) in whiteList:
+    if str(request.url.path) in whiteList or str(request.url.path).find('receita') != -1:
         return await call_next(request)
 
     auth_token = request.headers.get('Authorization')

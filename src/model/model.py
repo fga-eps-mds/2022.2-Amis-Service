@@ -1,6 +1,8 @@
 '''Importando parâmetros da orm'''
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum, DateTime
+from sqlalchemy.orm import relationship
+from datetime import datetime
 
 from ..database import Base
 
@@ -53,3 +55,62 @@ class Assistentes(Base):
     cpf: str = Column(String(11), nullable = False)
     observacao: str = Column(String(200), nullable = True)
     administrador: bool = Column(Boolean, nullable = False)
+
+class Receita(Base):
+    '''Classe para estabelecer o modelo da tabela na DB'''
+    __tablename__ = "receita"
+
+    def __init__(self, receita: dict) -> None:
+        self.nome = receita['nome']
+        self.descricao = receita['descricao']
+        
+    id: int = Column(
+        Integer, 
+        primary_key = True, 
+        index = True, 
+        autoincrement=True
+    )
+    nome: str = Column(String(100), nullable = False)
+    descricao: str = Column(String(256), nullable=False)
+    ingredientes = relationship('Ingrediente', backref='Receita', lazy='joined', cascade="all, delete-orphan")
+    modo_preparo = relationship('ModoPreparo', backref='Receita', lazy='joined', cascade="all, delete-orphan")
+
+    created_at = Column(DateTime, default=datetime.now())
+
+class Ingrediente(Base):
+    """Tabela para representar um ingrediente na receita"""
+    __tablename__ = "ingrediente"
+
+    id: int =  Column(
+        Integer, 
+        primary_key = True, 
+        index = True, 
+        autoincrement=True
+    )
+    receita_id: int = Column(
+        Integer, 
+        ForeignKey("receita.id"), 
+        index=True, 
+        nullable=False
+    )
+    descricao: str = Column(String(100), nullable=False) 
+
+class ModoPreparo(Base):
+    """Tabela para representar um ingrediente na receita"""
+    __tablename__ = "modo_preparo"
+
+    id: int =  Column(
+        Integer, 
+        primary_key = True, 
+        index = True,
+        autoincrement=True
+    )
+    receita_id: int = Column(
+        Integer, 
+        ForeignKey("receita.id"), 
+        index=True, 
+        nullable=False
+    )
+    descricao: str = Column(String(100), nullable=False) 
+
+    
