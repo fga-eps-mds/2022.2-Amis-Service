@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import requests
+from .config import settings
 
 app = FastAPI()
 
@@ -79,7 +80,7 @@ class Item(BaseModel):
 async def test():
     endpoint = ("https://auth-amis.azurewebsites.net/login/")
      
-    token_validado = requests.post(endpoint, data={"username": "kalebe1@gmail.com", "password": "kalebe123"})
+    token_validado = requests.post(endpoint, data={"username": settings.user_name, "password": settings.password})
     token = token_validado.json()
     return token['access_token']
 
@@ -87,6 +88,5 @@ async def test():
 @app.get('/')
 async def hello_world():
     return {
-        "db_type": settings.db_type,
-        "db_url": settings.db_url,
+        "status":'online'
     }
