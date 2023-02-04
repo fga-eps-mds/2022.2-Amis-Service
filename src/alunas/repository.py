@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from .model import Alunas
+from ..model.model import Alunas
+# from .model import Alunas
 
 class AlunasRepository:
     @staticmethod
@@ -21,6 +22,11 @@ class AlunasRepository:
     def find_by_cpf(database: Session, cpf: str) -> Alunas:
         '''Função para fazer uma query por CPF de um objeto aluna na DB'''
         return database.query(Alunas).filter(Alunas.cpf == cpf).first()
+    
+    @staticmethod
+    def find_by_id(database: Session, id: str) -> Alunas:
+        '''Função para fazer uma query por ID de um objeto aluna na DB'''
+        return database.query(Alunas).filter(Alunas.id == id).first()
 
     @staticmethod
     def exists_by_cpf(database: Session, cpf: str) -> bool:
@@ -39,3 +45,16 @@ class AlunasRepository:
         if alunas is not None:
             database.delete(alunas)
             database.commit()
+
+    @staticmethod
+    def count_all(database: Session) -> int:
+        '''Função para fazer uma query de todas as alunas da DB'''
+        return database.query(Alunas).count()
+        
+    @staticmethod
+    def count_formada(database: Session) -> int:
+        '''Função para fazer uma query de todas as alunas formadas da DB'''
+        return database.query(Alunas).filter(Alunas.formada == True).count()
+
+
+

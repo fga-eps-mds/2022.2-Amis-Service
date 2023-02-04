@@ -8,3 +8,5 @@ pytest
 httpx
 pytest-asyncio
 coverage
+passlib
+requests
