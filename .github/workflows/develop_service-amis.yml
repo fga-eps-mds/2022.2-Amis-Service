@@ -24,7 +24,7 @@ jobs:
       
       - name: Creating env file
         run: |
-          echo ${{ secrets.ENV_FILE }} > .env
+          echo "${{ secrets.ENV_FILE }}" > .env
           cat .env
 
       - name: Create and start virtual environment

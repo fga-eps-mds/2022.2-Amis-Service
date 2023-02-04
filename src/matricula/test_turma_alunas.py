@@ -1,5 +1,5 @@
 import pytest
-from ..main import app
+from ..main import app, test
 from httpx import AsyncClient
 
 GLOBAL_RESPONSE_ALUNA = []
@@ -37,7 +37,9 @@ async def test_create_aluna():
         "idEndereco": ENDERECO_ID
     }
     async with AsyncClient(app = app, base_url = HTTPS_ALUNAS) as async_client:
-        responseAluna = await async_client.post("/alunas/", json=data)
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        responseAluna = await async_client.post("/alunas/", json=data, headers=headers)
         global GLOBAL_RESPONSE_ALUNA
         GLOBAL_RESPONSE_ALUNA = responseAluna
     assert responseAluna.status_code == 201
@@ -65,25 +67,26 @@ async def test_create_turma():
         "dataFim": DATA_FIM
     }
     async with AsyncClient(app = app, base_url = HTTPS_TURMAS) as async_client:
-        responseTurma = await async_client.post("/turmas/", json=data)
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        responseTurma = await async_client.post("/turmas/", json=data, headers=headers)
         global GLOBAL_RESPONSE_TURMA
         GLOBAL_RESPONSE_TURMA = responseTurma
     assert responseTurma.status_code == 201
 
-# MATRICULA
-ID_TURMA = 1
-ID_ALUNA = "1"
 
 # CREATE MATRICULA
 @pytest.mark.asyncio
 async def test_create_matricula():
     '''Função para testar a criação de uma matricula'''
     data = {
-        "idTurma": ID_TURMA,
-        "idAluna": ID_ALUNA,
+        "idTurma": GLOBAL_RESPONSE_TURMA.json()['id'], 
+        "idAluna": GLOBAL_RESPONSE_ALUNA.json()['id'] 
     }
     async with AsyncClient(app = app, base_url = HTTPS_MATRICULA) as async_client:
-        response = await async_client.post("/matricula/", json=data)
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        response = await async_client.post("/matricula/", json=data, headers=headers)
         global GLOBAL_RESPONSE
         GLOBAL_RESPONSE = response
     assert response.status_code == 201
@@ -93,7 +96,9 @@ async def test_create_matricula():
 async def test_read_all_matriculas():
     '''Função para testar exibição de todas matriculas (ainda sem paginação)'''
     async with AsyncClient(app = app, base_url = HTTPS_MATRICULA) as async_client:
-        response = await async_client.get("/matricula/")
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        response = await async_client.get("/matricula/", headers=headers)
     assert response.status_code == 200
 
 # GET BY ID
@@ -101,7 +106,9 @@ async def test_read_all_matriculas():
 async def test_read_by_id_matricula():
     '''Função para testar pesquisa de matricula por ID'''
     async with AsyncClient(app = app, base_url = HTTPS_MATRICULA) as async_client:
-        response = await async_client.get(f"/matricula/{ID_TURMA}")
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        response = await async_client.get(f"/matricula/{GLOBAL_RESPONSE_TURMA.json()['id']}", headers=headers)
     assert response.status_code == 200
 
 # DELETE BY ID
@@ -109,7 +116,9 @@ async def test_read_by_id_matricula():
 async def test_delete_by_id_matricula():
     '''Função para testar apagar matricula por ID da turma e aluna'''
     async with AsyncClient(app = app, base_url = HTTPS_MATRICULA) as async_client:
-        response = await async_client.delete(f"/matricula/{ID_TURMA}/{ID_ALUNA}")
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        response = await async_client.delete(f"/matricula/{GLOBAL_RESPONSE_TURMA.json()['id']}/{GLOBAL_RESPONSE_ALUNA.json()['id']}", headers=headers)
     assert response.status_code == 204
 
 # GET VAGAS BY ID
@@ -117,5 +126,7 @@ async def test_delete_by_id_matricula():
 async def test_read_by_id_matricula():
     '''Função para testar pesquisa de vagas da turma por ID'''
     async with AsyncClient(app = app, base_url = HTTPS_MATRICULA) as async_client:
-        response = await async_client.get(f"/matricula/turma/{ID_TURMA}")
+        TOKEN = await test()
+        headers = {"Authorization": "Bearer " + TOKEN}
+        response = await async_client.get(f"/matricula/turma/{GLOBAL_RESPONSE_TURMA.json()['id']}", headers=headers)
     assert response.status_code == 200
