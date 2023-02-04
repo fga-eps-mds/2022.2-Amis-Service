@@ -19,7 +19,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Creating env file
         run: |
-          echo ${{ secrets.ENV_FILE }} > .env
+          echo "${{ secrets.ENV_FILE }}" > .env
           cat .env
       - name: Install tox and any other packages
         run: pip install tox
