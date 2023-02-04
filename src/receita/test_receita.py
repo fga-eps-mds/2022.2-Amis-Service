@@ -3,8 +3,9 @@ from ..main import app
 from httpx import AsyncClient
 
 NOME_RECEITA = 'Bolo de cenoura'
-INGREDIENTES = 'Farinha'
-MODO_PREPARO = 'Assar no forno por 30 minutos'
+DESCRICAO = 'Bolo cremoso de cenoura e chocolate'
+INGREDIENTES = ['cenoura','chocolate']
+MODO_PREPARO = ['Assar no forno por 30 minutos', 'colocar cobertura depois de quente']
 
 GLOBAL_RESPONSE = []
 HTTPS_RECEITA = "https://receita"
@@ -15,6 +16,7 @@ async def test_create_receita():
     '''Função para testar a criação de uma receita'''
     data = {
         "nome": NOME_RECEITA,
+        "descricao": DESCRICAO,
         "ingredientes": INGREDIENTES,
         "modo_preparo": MODO_PREPARO
     }
@@ -37,7 +39,7 @@ async def test_read_all_recitas():
 async def test_read_by_id_receitas():
     '''Função para testar pesquisa de receitas por id'''
     async with AsyncClient(app = app,base_url = HTTPS_RECEITA) as async_client:
-        response = await async_client.get(f"/receita/{id}")
+        response = await async_client.get(f"/receita/{GLOBAL_RESPONSE.json()['id']}")
     assert response.status_code == 200
 
 # UPDATE BY ID
@@ -46,6 +48,7 @@ async def test_update_by_id_receita():
     '''Função para testar modificação de objeto receita por ID'''
     data = {
         "nome": NOME_RECEITA,
+        "descricao": DESCRICAO,
         "ingredientes": INGREDIENTES,
         "modo_preparo": MODO_PREPARO
     }
